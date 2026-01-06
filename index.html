@@ -4,160 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kris3DLab • Modelljei</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        :root {
-            --main-green: #2ecc71;
-            --dark-bg: #0f0f0f;
-            --card-bg: #1e1e1e;
-        }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            background-color: var(--dark-bg);
-            color: white;
-        }
+        :root { --main-green: #2ecc71; --dark-bg: #0f0f0f; --card-bg: #1a1a1a; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--dark-bg); color: white; scroll-behavior: smooth; }
+        
         /* Navigáció */
-        nav {
-            background: #1a1a1a;
-            padding: 15px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--main-green);
-        }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            transition: 0.3s;
-        }
+        nav { background: #111; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--main-green); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: white; }
+        .logo span { color: var(--main-green); }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; cursor: pointer; }
         .nav-links a:hover { color: var(--main-green); }
 
-        header {
-            background: linear-gradient(135deg, #1a1a1a, #27ae60);
-            padding: 80px 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        /* Kártya stílus */
-        .card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid #333;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .card:hover {
-            border-color: var(--main-green);
-            transform: translateY(-5px);
-        }
-        .price {
-            font-size: 1.5rem;
-            color: var(--main-green);
-            font-weight: bold;
-            margin: 15px 0;
-        }
-        .status-tag {
-            background: #e67e22;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: var(--main-green);
-            color: black;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-        }
-        .btn:hover { background: #27ae60; }
+        /* Header */
+        header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop'); background-size: cover; padding: 100px 20px; text-align: center; }
 
-        /* Regisztráció/Bejelentkezés Modul */
-        .auth-section {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 40px;
-            border-left: 5px solid var(--main-green);
-        }
-        input {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            background: #222;
-            color: white;
-        }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        
+        /* Szekciók */
+        .section { display: none; padding: 40px 0; }
+        .section.active { display: block; }
+
+        /* Kártyák */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid #333; transition: 0.3s; text-align: center; }
+        .card:hover { border-color: var(--main-green); transform: translateY(-5px); }
+        .price { font-size: 1.4rem; color: var(--main-green); margin: 10px 0; font-weight: bold; }
+
+        /* Gombok */
+        .btn { background: var(--main-green); color: black; border: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #27ae60; }
+        .btn-google { background: white; color: #444; margin-top: 10px; }
+
+        /* Kosár stílus */
+        .cart-item { display: flex; justify-content: space-between; background: #222; padding: 10px; margin-bottom: 10px; border-radius: 5px; border-left: 4px solid var(--main-green); }
+        
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div style="font-size: 1.5rem; font-weight: bold;">Kris3D<span style="color: var(--main-green);">Lab</span></div>
+    <div class="logo">Kris3D<span>Lab</span></div>
     <div class="nav-links">
-        <a href="#">Főoldal</a>
-        <a href="#">Modellek</a>
-        <a href="#">Kosár (0)</a>
+        <a onclick="showSection('home')">Főoldal</a>
+        <a onclick="showSection('models')">Modellek</a>
+        <a onclick="showSection('auth')">Bejelentkezés</a>
+        <a onclick="showSection('cart')">Kosár (<span id="cart-count">0</span>)</a>
     </div>
 </nav>
 
-<header>
-    <h1>Kris3DLab • Modelljei</h1>
-    <p>A legjobb magyar tartalmak és 3D projektek egy helyen.</p>
-</header>
+<section id="home" class="section active">
+    <header>
+        <h1>Kris3DLab • Modelljei</h1>
+        <p>Minőségi 3D csomagok és digitális assetek.</p>
+        <button class="btn" style="width: auto;" onclick="showSection('models')">Modellek böngészése</button>
+    </header>
+</section>
 
-<div class="container">
-    
-    <div class="auth-section">
-        <h3>Regisztráció / Bejelentkezés</h3>
-        <p>Jelentkezz be a kosár megtekintéséhez.</p>
-        <input type="text" placeholder="Felhasználónév">
+<section id="models" class="section">
+    <div class="container">
+        <h2 style="color: var(--main-green);">Elérhető Modellek</h2>
+        <div class="grid">
+            <div class="card">
+                <span style="color: #e67e22;">Hamarosan...</span>
+                <h3>Magyar Brainrot Csomag</h3>
+                <p>7 válogatott magyar mém modell.</p>
+                <div class="price">4 500 Ft</div>
+                <button class="btn" onclick="addToCart('Magyar Brainrot Csomag', 4500)">Kosárba</button>
+            </div>
+            <div class="card">
+                <h3>Low-Poly Autó</h3>
+                <p>Játékfejlesztéshez optimalizálva.</p>
+                <div class="price">2 000 Ft</div>
+                <button class="btn" onclick="addToCart('Low-Poly Autó', 2000)">Kosárba</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="auth" class="section">
+    <div class="container" style="max-width: 400px;">
+        <h2>Bejelentkezés</h2>
+        <input type="email" placeholder="Email cím">
         <input type="password" placeholder="Jelszó">
-        <button class="btn" style="width: auto; display: inline-block; padding: 10px 30px;">Belépés</button>
+        <button class="btn">Belépés Emaillel</button>
+        <hr style="margin: 20px 0; border: 0.5px solid #333;">
+        <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-callback="handleCredentialResponse"></div>
+        <div class="g_id_signin" data-type="standard"></div>
+        <p style="font-size: 0.8rem; margin-top: 15px; color: #888;">Nincs még fiókod? Regisztrálj ingyen.</p>
     </div>
+</section>
 
-    <div class="grid">
-        <div class="card">
-            <span class="status-tag">Hamarosan...</span>
-            <h3>Magyar Brainrot Csomag</h3>
-            <p>A csomag tartalma: 7 darab válogatott magyar brainrot tartalom.</p>
-            <div class="price">4 500 Ft</div>
-            <p style="font-size: 0.8rem; color: #aaa;">Fizetési mód: PayPal</p>
-            <button class="btn" onclick="alert('Hamarosan elérhető!')">Kosárba teszem</button>
+<section id="cart" class="section">
+    <div class="container" style="max-width: 600px;">
+        <h2>Kosarad tartalma</h2>
+        <div id="cart-items">
+            <p>A kosarad jelenleg üres.</p>
         </div>
-
-        <div class="card">
-            <h3>Alap 3D Modell</h3>
-            <p>Ingyenesen letölthető kezdő csomag.</p>
-            <div class="price">0 Ft</div>
-            <button class="btn">Letöltés</button>
+        <div id="cart-total" style="margin-top: 20px; font-size: 1.2rem; font-weight: bold;"></div>
+        <div id="payment-area" style="display: none; margin-top: 30px;">
+            <h3>Fizetési mód: PayPal</h3>
+            <p>A fizetés után a letöltési linket emailben küldjük el.</p>
+            <button class="btn" onclick="alert('Átirányítás a PayPal biztonságos oldalára...')">Fizetés indítása</button>
         </div>
     </div>
-</div>
+</section>
 
-<footer style="text-align: center; padding: 50px; color: #555;">
-    <p>© 2026 Kris3DLab • Modelljei</p>
-</footer>
+<script>
+    let cart = [];
+
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        updateCart();
+        alert(name + " hozzáadva a kosárhoz!");
+    }
+
+    function updateCart() {
+        document.getElementById('cart-count').innerText = cart.length;
+        const container = document.getElementById('cart-items');
+        const totalContainer = document.getElementById('cart-total');
+        const payArea = document.getElementById('payment-area');
+
+        if (cart.length === 0) {
+            container.innerHTML = "<p>A kosarad üres.</p>";
+            totalContainer.innerText = "";
+            payArea.style.display = "none";
+        } else {
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>${item.price} Ft</span>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            totalContainer.innerText = "Összesen: " + total + " Ft";
+            payArea.style.display = "block";
+        }
+    }
+
+    // Google Auth Callback (szimuláció)
+    function handleCredentialResponse(response) {
+        console.log("Google bejelentkezés sikeres!");
+        alert("Sikeres Google bejelentkezés!");
+        showSection('home');
+    }
+</script>
 
 </body>
 </html>
